@@ -1,11 +1,13 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.requests import Request
 
 from app.api import webhooks, telegram
 from app.core.config import settings
 from app.core.logger import logger
+from app.core.responses import standard_response
 from app.db.pool import db
 from app.bot.loader import bot, setup_bot
 
@@ -95,6 +97,17 @@ app.include_router(
     prefix="/webhook",
     tags=["Telegram"]
 )
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(_: Request, exc: HTTPException):
+    return standard_response(
+        success=False,
+        message=str(exc.detail),
+        errors=[str(exc.detail)],
+        status_code=exc.status_code
+    )
+
 
 if __name__ == "__main__":
     import uvicorn
