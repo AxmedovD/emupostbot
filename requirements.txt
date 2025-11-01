@@ -1,0 +1,30 @@
+# FastAPI and ASGI server
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+aiofiles
+aiodns
+
+# Telegram Bot
+aiogram
+aiohttp[speedups]
+
+# Database
+asyncpg
+
+# Redis (optional)
+redis[hiredis]
+
+# Utilities
+python-dotenv
+python-multipart
+Jinja2
+httptools
+# APScheduler
+
+# Logging and monitoring
+python-json-logger
+
+orjson
+uvloop
