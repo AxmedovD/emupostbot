@@ -16,8 +16,6 @@ from app.core.logger import api_logger
 
 def format_media_url(request: Request, path: str) -> str | None:
     """
-    Format media file path to full URL
-
     Args:
         request: FastAPI Request object
         path: Relative media path
@@ -39,17 +37,6 @@ def format_media_url(request: Request, path: str) -> str | None:
 
 def default(obj: Any, request: Request = None) -> Any:
     """
-    Custom JSON serializer for special types
-
-    Supports:
-    - UUID
-    - AsyncPG Record
-    - datetime/date
-    - Decimal
-    - Enum
-    - Pydantic models
-    - Media URL formatting
-
     Args:
         obj: Object to serialize
         request: FastAPI Request (for media URL generation)
@@ -99,12 +86,6 @@ def default(obj: Any, request: Request = None) -> Any:
 class ORJSONResponse(JSONResponse):
     """
     Custom JSON response using ORJSON for fast serialization
-
-    Features:
-    - 2-3x faster than standard json library
-    - Automatic type conversion
-    - Media URL formatting
-    - Pretty printing in debug mode
     """
 
     def __init__(
@@ -235,8 +216,6 @@ def success_response(
         pretty: bool = False,
 ) -> ORJSONResponse:
     """
-    Create success response (shorthand)
-
     Args:
         message: Success message
         data: Response data
@@ -268,8 +247,6 @@ def error_response(
         pretty: bool = False,
 ) -> ORJSONResponse:
     """
-    Create error response (shorthand)
-
     Args:
         message: Error message
         errors: List of detailed errors
@@ -302,8 +279,6 @@ def paginated_response(
         pretty: bool = False,
 ) -> ORJSONResponse:
     """
-    Create paginated response
-
     Args:
         data: List of items for current page
         total: Total number of items
@@ -346,8 +321,6 @@ def validation_error_response(
         pretty: bool = False,
 ) -> ORJSONResponse:
     """
-    Create validation error response
-
     Args:
         errors: List of validation errors
         message: Error message
@@ -373,8 +346,6 @@ def not_found_response(
         pretty: bool = False,
 ) -> ORJSONResponse:
     """
-    Create 404 not found response
-
     Args:
         message: Error message
         resource: Resource identifier
@@ -403,8 +374,6 @@ def unauthorized_response(
         pretty: bool = False,
 ) -> ORJSONResponse:
     """
-    Create 401 unauthorized response
-
     Args:
         message: Error message
         request: FastAPI Request
@@ -427,8 +396,6 @@ def forbidden_response(
         pretty: bool = False,
 ) -> ORJSONResponse:
     """
-    Create 403 forbidden response
-
     Args:
         message: Error message
         request: FastAPI Request
@@ -452,8 +419,6 @@ def server_error_response(
         pretty: bool = False,
 ) -> ORJSONResponse:
     """
-    Create 500 server error response
-
     Args:
         message: Error message
         error_id: Error tracking ID
