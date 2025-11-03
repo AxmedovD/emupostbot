@@ -1,14 +1,18 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+from os import getenv
 from re import IGNORECASE, compile as com
 from time import time
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from asyncpg import Connection, Pool, Record, create_pool
+from dotenv import load_dotenv
 from orjson import dumps, loads
 
 from app.core.logger import db_logger
+
+load_dotenv()
 
 # ============================================================================
 # SECURITY CONFIGURATION
@@ -55,7 +59,6 @@ MAX_OFFSET = 1000000
 MAX_FIELDS = 50
 
 
-
 class DatabaseError(Exception):
     """Base database exception"""
     pass
@@ -69,7 +72,6 @@ class SecurityError(DatabaseError):
 class ValidationError(DatabaseError):
     """Input validation failed"""
     pass
-
 
 
 class Validator:
@@ -228,7 +230,6 @@ class Validator:
             raise ValidationError(f"OFFSET too large (max {MAX_OFFSET})")
 
         return offset
-
 
 
 class ConditionHandler:
@@ -1068,4 +1069,10 @@ class Database:
 # GLOBAL INSTANCE
 # ============================================================================
 
-db = Database()
+db = Database(
+    user=getenv("DB_USER"),
+    password=getenv("DB_PASSWORD"),
+    host=getenv("DB_HOST"),
+    port=getenv("DB_PORT"),
+    database=getenv("DB_NAME"),
+)
