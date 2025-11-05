@@ -16,7 +16,7 @@ from app.db.pool import Database
 from app.core.logger import bot_logger
 from app.core.utils import clean_phone_number
 
-router = Router(name="users")
+router: Router = Router(name="users")
 
 # Barcha handler'lar faqat private chat uchun
 router.message.filter(F.chat.type == ChatType.PRIVATE)
