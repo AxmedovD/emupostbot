@@ -22,6 +22,8 @@ async def lifespan(_: FastAPI):
         await db.create_session_pool()
         logger.info("✓ Database connected")
 
+        await db.create_tables()
+
         await setup_bot()
         logger.info("✓ Bot handlers configured")
 

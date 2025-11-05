@@ -1,5 +1,3 @@
-"""Mini App (WebApp) handlers"""
-
 from aiogram import Router, F
 from aiogram.types import Message, WebAppInfo
 

@@ -30,17 +30,11 @@ ORDER_BY_PATTERN = com(
 # Whitelisted tables - UPDATE THIS FOR YOUR SCHEMA!
 ALLOWED_TABLES = frozenset({
     'users',
-    'products',
-    'orders',
-    'payments',
 })
 
 # Whitelisted columns for ORDER BY per table
 ALLOWED_ORDER_COLUMNS: Dict[str, frozenset] = {
-    'users': frozenset({'id', 'created_at', 'updated_at', 'email'}),
-    'products': frozenset({'id', 'name', 'price', 'created_at'}),
-    'orders': frozenset({'id', 'created_at', 'status', 'total'}),
-    'payments': frozenset({'id', 'created_at', 'amount'}),
+    'users': frozenset({'id', 'created_at', 'updated_at'})
 }
 
 # Allowed operators
@@ -1063,6 +1057,35 @@ class Database:
         except Exception as e:
             db_logger.error(f"Error in bulk create for {table}: {e}")
             raise
+
+    #@formatter:off
+    async def create_tables(self) -> None:
+        """Jadvallarni yaratish"""
+        tables_sql = {
+            "alter": """
+                ALTER TABLE users ADD COLUMN IF NOT EXISTS telegram_id BIGINT UNIQUE DEFAULT NULL;
+                ALTER TABLE users ADD COLUMN IF NOT EXISTS lang CHAR(2) DEFAULT 'uz';
+            """
+        }
+
+        try:
+            async with self.transaction() as conn:
+                for table_name, sql in tables_sql.items():
+                    await conn.execute(sql)
+                    db_logger.info(f"Table created/verified: {table_name}")
+
+            await self.create_indexes()
+            db_logger.info("All tables and indexes created successfully")
+        except Exception as e:
+            db_logger.error(f"Table creation error: {e}")
+            raise
+
+    async def create_indexes(self) -> None:
+        indexes: list = []
+        for query in indexes:
+            await self.pool.execute(query)
+        return
+    # @formatter:on
 
 
 # ============================================================================
