@@ -19,7 +19,7 @@ bot = Bot(
 
 # storage = MemoryStorage()
 storage = RedisStorage.from_url(
-    url="redis://127.0.0.1:6379/0",
+    url=settings.REDIS_URL,
     key_builder=DefaultKeyBuilder(prefix="emupostbot")
 )
 dp = Dispatcher(storage=storage)
@@ -31,10 +31,10 @@ i18n = I18n(path=BASE_DIR / 'bot' / "locales", default_locale="uz", domain="emup
 async def setup_bot():
     from app.bot.middlewares.database import DatabaseMiddleware
     from app.bot.middlewares.i18n import CustomI18nMiddleware
-    from app.bot.handlers import commands, webapp
+    from app.bot.handlers import users, webapp
 
     dp.update.middleware(DatabaseMiddleware())
     dp.update.middleware(CustomI18nMiddleware(i18n))
 
-    dp.include_router(commands.router)
+    dp.include_router(users.router)
     dp.include_router(webapp.router)

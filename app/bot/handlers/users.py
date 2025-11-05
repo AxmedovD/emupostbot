@@ -22,13 +22,13 @@ router = Router(name="commands")
 router.message.filter(F.chat.type == ChatType.PRIVATE)
 
 # Konstanta
-SUPPORTED_LANGUAGES = {
+SUPPORTED_LANGUAGES: dict = {
     "🇺🇿 O'zbek": "uz",
     "🇷🇺 Русский": "ru",
     "🇬🇧 English": "en"
 }
 
-SUCCESS_MESSAGES = {
+SUCCESS_MESSAGES: dict = {
     "uz": "✅ Til muvaffaqiyatli o'zgartirildi!\n\nQayta boshlash: /start",
     "ru": "✅ Язык успешно изменен!\n\nПерезапустить: /start",
     "en": "✅ Language changed successfully!\n\nRestart: /start"
@@ -41,7 +41,7 @@ async def get_or_create_user(
         state: FSMContext
 ) -> tuple[dict | None, bool]:
     """
-    Foydalanuvchini olish yoki yaratish
+    Foydalanuvchini olish yoki qo'shish
 
     Returns:
         tuple: (user_data, is_new_user)
@@ -59,7 +59,7 @@ async def get_or_create_user(
     if user is not None:
         return user, False
 
-    # Yangi foydalanuvchi yaratish
+    # Yangi foydalanuvchi qo'shish
     try:
         username = message.from_user.username or str(telegram_id)
         user_id = await db.create(
@@ -70,7 +70,8 @@ async def get_or_create_user(
                 "phone": str(telegram_id),
                 "username": username.lower(),
                 "password": str(telegram_id),
-                "lang": "uz"
+                "lang": "uz",
+                "role_code": 3,
             }
         )
 
@@ -80,7 +81,7 @@ async def get_or_create_user(
         return {"id": user_id, "lang": "uz"}, True
 
     except Exception as e:
-        bot_logger.error(f"User yaratishda xatolik: {e}")
+        bot_logger.error(f"User qo'shishda xatolik: {e}")
         return None, False
 
 
@@ -203,6 +204,7 @@ async def get_phone(message: Message, db: Database, state: FSMContext):
             data={
                 "name": data.get('name'),
                 "phone": phone,
+                "role_code": 2
             },
             conditions={"id": data.get('user_id')}
         )

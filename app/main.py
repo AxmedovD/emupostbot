@@ -109,15 +109,3 @@ async def http_exception_handler(_: Request, exc: HTTPException):
         errors=[str(exc.detail)],
         status_code=exc.status_code
     )
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(
-        app="app.main:app",
-        host=settings.API_HOST,
-        port=settings.API_PORT,
-        reload=settings.DEBUG,
-        log_level="info"
-    )
