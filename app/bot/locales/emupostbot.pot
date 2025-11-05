@@ -1,0 +1,87 @@
+# Translations template for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-11-05 21:38+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app/bot/handlers/commands.py:94
+msgid "Xatolik yuz berdi. Qayta urinib ko'ring: /start"
+msgstr ""
+
+#: app/bot/handlers/commands.py:100 app/bot/handlers/commands.py:108
+msgid "Botga xush kelibsiz!"
+msgstr ""
+
+#: app/bot/handlers/commands.py:119
+msgid "Tilni tanlang:"
+msgstr ""
+
+#: app/bot/handlers/commands.py:125
+msgid "Xush kelibsiz!"
+msgstr ""
+
+#: app/bot/handlers/commands.py:140
+msgid "Noto'g'ri til tanlandi!"
+msgstr ""
+
+#: app/bot/handlers/commands.py:156
+msgid "Iltimos, ism va familiyangizni yuboring."
+msgstr ""
+
+#: app/bot/handlers/commands.py:169 app/bot/handlers/commands.py:231
+msgid "Xatolik yuz berdi. Qayta urinib ko'ring."
+msgstr ""
+
+#: app/bot/handlers/commands.py:181
+msgid "Ism juda qisqa. Kamida 3 ta harf kiriting."
+msgstr ""
+
+#: app/bot/handlers/commands.py:186
+msgid "Ism juda uzun. Maksimal 100 ta harf."
+msgstr ""
+
+#: app/bot/handlers/commands.py:193
+msgid "Iltimos, telefon raqamingizni yuboring."
+msgstr ""
+
+#: app/bot/handlers/commands.py:204
+msgid "Iltimos, o'z telefon raqamingizni yuboring!"
+msgstr ""
+
+#: app/bot/handlers/commands.py:224
+msgid "Ro'yxatdan muvaffaqiyatli o'tdingiz!"
+msgstr ""
+
+#: app/bot/handlers/commands.py:239
+msgid "Iltimos, faqat tugmani bosing!"
+msgstr ""
+
+#: app/bot/keyboards/reply.py:25
+msgid "📲 Telefon raqamni ulashish"
+msgstr ""
+
+#: app/bot/keyboards/reply.py:39
+msgid "📄 Shartnoma"
+msgstr ""
+
+#: app/bot/keyboards/reply.py:42
+msgid "⚙️ Sozlamalar"
+msgstr ""
+
+#: app/bot/keyboards/reply.py:43
+msgid "ℹ️ Ma'lumot"
+msgstr ""
+

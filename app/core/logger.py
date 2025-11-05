@@ -1,8 +1,8 @@
 from logging import INFO, Logger, getLogger, Formatter
 from logging.handlers import TimedRotatingFileHandler
-from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+from app.core.settings import BASE_DIR
+
 LOG_DIR = BASE_DIR / 'logs'
 LOG_DIR.mkdir(exist_ok=True)
 

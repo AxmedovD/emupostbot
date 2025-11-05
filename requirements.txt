@@ -7,7 +7,7 @@ aiofiles
 aiodns
 
 # Telegram Bot
-aiogram
+aiogram[i18n]
 aiohttp[speedups]
 
 # Database
