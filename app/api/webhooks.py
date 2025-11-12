@@ -9,18 +9,12 @@ from app.services.notifications import process_external_webhook
 router = APIRouter()
 
 
-@router.post(path="/external", dependencies=[Depends(verify_external_webhook_secret)])
+@router.post(path="/", dependencies=[Depends(verify_external_webhook_secret)])
 async def external_webhook(
-        payload: ExternalWebhookPayload,
+        data: ExternalWebhookPayload,
         background_tasks: BackgroundTasks,
         db: Database = Depends(get_db)
 ):
-    """
-    Receive webhook from external service
-
-    Security: Requires X-Webhook-Signature header
-    """
-
     try:
         return {
             "status": "success"

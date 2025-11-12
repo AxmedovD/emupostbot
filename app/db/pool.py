@@ -1,18 +1,15 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
-from os import getenv
 from re import IGNORECASE, compile as com
 from time import time
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from asyncpg import Connection, Pool, Record, create_pool
-from dotenv import load_dotenv
 from orjson import dumps, loads
 
+from app.core.config import settings
 from app.core.logger import db_logger
-
-load_dotenv()
 
 # ============================================================================
 # SECURITY CONFIGURATION
@@ -30,6 +27,9 @@ ORDER_BY_PATTERN = com(
 # Whitelisted tables - UPDATE THIS FOR YOUR SCHEMA!
 ALLOWED_TABLES = frozenset({
     'users',
+    "clients",
+    "p_sender",
+    "p_receiver",
 })
 
 # Whitelisted columns for ORDER BY per table
@@ -46,11 +46,11 @@ ALLOWED_OPERATORS = frozenset({
 })
 
 # DOS Protection limits
-MAX_IN_VALUES = 1000
-MAX_OR_CONDITIONS = 100
-MAX_LIMIT = 10000
-MAX_OFFSET = 1000000
-MAX_FIELDS = 50
+MAX_IN_VALUES: int = 1000
+MAX_OR_CONDITIONS: int = 100
+MAX_LIMIT: int = 10000
+MAX_OFFSET: int = 1000000
+MAX_FIELDS: int = 50
 
 
 class DatabaseError(Exception):
@@ -1093,9 +1093,9 @@ class Database:
 # ============================================================================
 
 db = Database(
-    user=getenv("DB_USER"),
-    password=getenv("DB_PASSWORD"),
-    host=getenv("DB_HOST"),
-    port=getenv("DB_PORT"),
-    database=getenv("DB_NAME"),
+    user=settings.DB_USER,
+    password=settings.DB_PASSWORD,
+    host=settings.DB_HOST,
+    port=settings.DB_PORT,
+    database=settings.DB_NAME,
 )

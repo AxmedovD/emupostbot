@@ -1,4 +1,4 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
 from aiogram.utils.i18n import gettext as _
 
 
@@ -31,16 +31,32 @@ def share_phone_keyboard() -> ReplyKeyboardMarkup:
     )
 
 
-def get_main_keyboard() -> ReplyKeyboardMarkup:
+def get_main_keyboard(is_contract: bool = False) -> ReplyKeyboardMarkup:
     """Asosiy klaviatura"""
     return ReplyKeyboardMarkup(
         keyboard=[
+            [] if is_contract else [KeyboardButton(text=_("📄 Shartnoma"))],
             [
-                KeyboardButton(text=_("📄 Shartnoma")),
+                KeyboardButton(
+                    text="🚀 Mini App ochish",
+                    web_app=WebAppInfo(url="https://emu.uz/uz")
+                )
             ],
             [
                 KeyboardButton(text=_("⚙️ Sozlamalar")),
                 KeyboardButton(text=_("ℹ️ Ma'lumot"))
+            ]
+        ],
+        resize_keyboard=True
+    )
+
+
+def stop_keyboard() -> ReplyKeyboardMarkup:
+    """Asosiy klaviatura"""
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [
+                KeyboardButton(text=_("❎ Bekor qilish"))
             ]
         ],
         resize_keyboard=True

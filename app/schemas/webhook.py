@@ -1,24 +1,16 @@
-from typing import Dict, Any, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class ExternalWebhookPayload(BaseModel):
-    """Schema for external webhook payload"""
-
-    event_type: str = Field(..., description="Type of event")
-    data: Dict[str, Any] = Field(..., description="Event data")
-    timestamp: Optional[str] = None
-    user_id: Optional[int] = None
+    order_no: str
+    webhook_id: int
+    parcel_id: int
 
     class Config:
         json_schema_extra = {
             "example": {
-                "event_type": "notification",
-                "data": {
-                    "message": "Test notification",
-                    "priority": "high"
-                },
-                "timestamp": "2025-10-31T12:00:00Z",
-                "user_id": 123456789
+                "order_no": "EMU23423432",
+                "webhook_id": 12345,
+                "parcel_id": 123
             }
         }

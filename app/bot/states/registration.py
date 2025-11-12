@@ -6,3 +6,5 @@ class RegistrationStates(StatesGroup):
     language = State()  # Til tanlash
     name = State()  # Ism kiritish
     phone = State()  # Telefon raqam
+    login = State()  # Shartnoma Logini
+    password = State()  # Shartnoma Paroli

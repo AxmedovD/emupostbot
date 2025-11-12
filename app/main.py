@@ -22,7 +22,7 @@ async def lifespan(_: FastAPI):
         await db.create_session_pool()
         logger.info("✓ Database connected")
 
-        await db.create_tables()
+        # await db.create_tables()
 
         await setup_bot()
         logger.info("✓ Bot handlers configured")
@@ -90,7 +90,7 @@ app.add_middleware(
 
 app.include_router(
     webhooks.router,
-    prefix="/webhooks",
+    prefix="/webhook",
     tags=["External Webhooks"]
 )
 
