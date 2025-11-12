@@ -30,7 +30,7 @@ def share_phone_keyboard() -> ReplyKeyboardMarkup:
         resize_keyboard=True
     )
 
-
+ 
 def get_main_keyboard(is_contract: bool = False) -> ReplyKeyboardMarkup:
     """Asosiy klaviatura"""
     return ReplyKeyboardMarkup(
