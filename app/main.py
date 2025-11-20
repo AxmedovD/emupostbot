@@ -68,11 +68,11 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(
     title="EmuPostBot",
-    description="Telegram Bot",
+    description="Telegram Bot API with FastAPI",
     version="1.0.0",
     lifespan=lifespan,
-    docs_url=None,
-    redoc_url=None
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
 # CORS middleware for Mini App
@@ -99,6 +99,41 @@ app.include_router(
     prefix="/webhook",
     tags=["Telegram"]
 )
+
+
+@app.get("/health", tags=["Health"])
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy", "service": "EmuPostBot"}
+
+
+@app.get("/status", tags=["Status"])
+async def get_status():
+    """Get application status"""
+    try:
+        # Check database connection
+        db_status = "connected" if db._pool else "disconnected"
+
+        # Check webhook info
+        webhook_info = await bot.get_webhook_info()
+
+        return {
+            "status": "running",
+            "database": db_status,
+            "webhook": {
+                "url": webhook_info.url,
+                "is_set": bool(webhook_info.url),
+                "pending_updates": webhook_info.pending_update_count
+            },
+            "bot": {
+                "username": (await bot.get_me()).username if bot else None
+            }
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
 
 
 @app.exception_handler(HTTPException)
