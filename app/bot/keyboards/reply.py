@@ -1,6 +1,8 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
 from aiogram.utils.i18n import gettext as _
 
+from app.core.config import settings
+
 
 def get_language_keyboard() -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(
@@ -39,7 +41,7 @@ def get_main_keyboard(is_contract: bool = False) -> ReplyKeyboardMarkup:
             [
                 KeyboardButton(
                     text="🚀 Mini App ochish",
-                    web_app=WebAppInfo(url="https://emu.uz/uz")
+                    web_app=WebAppInfo(url=settings.WEBAPP_URL)
                 )
             ],
             [
