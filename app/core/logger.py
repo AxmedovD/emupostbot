@@ -1,10 +1,10 @@
 from logging import INFO, Logger, getLogger, Formatter
 from logging.handlers import TimedRotatingFileHandler
+import os
 
 from app.core.settings import BASE_DIR
 
 LOG_DIR = BASE_DIR / 'logs'
-LOG_DIR.mkdir(exist_ok=True)
 
 # Log format
 LOG_FORMAT: str = "%(asctime)s | %(levelname)-8s | %(process)d | %(name)s:%(lineno)d | %(message)s"
@@ -41,17 +41,25 @@ def setup_logger(
 
     # File handler - agar log_file berilgan bo'lsa
     if log_file:
-        file_handler = TimedRotatingFileHandler(
-            filename=LOG_DIR / log_file,
-            when='midnight',  # Har kecha yarim tunda rotate
-            interval=1,  # Har 1 kun
-            backupCount=backup_count,  # Necha kunlik saqlanadi
-            encoding='UTF-8',
-            utc=False  # Server vaqtidan foydalanish
-        )
-        file_handler.suffix = '%Y-%m-%d'  # Fayl nomi formati: app.log.2025-10-31
-        file_handler.setFormatter(formatter)
-        _logger.addHandler(file_handler)
+        try:
+            # Create logs directory if it doesn't exist
+            LOG_DIR.mkdir(exist_ok=True, parents=True)
+
+            file_handler = TimedRotatingFileHandler(
+                filename=LOG_DIR / log_file,
+                when='midnight',  # Har kecha yarim tunda rotate
+                interval=1,  # Har 1 kun
+                backupCount=backup_count,  # Necha kunlik saqlanadi
+                encoding='UTF-8',
+                utc=False  # Server vaqtidan foydalanish
+            )
+            file_handler.suffix = '%Y-%m-%d'  # Fayl nomi formati: app.log.2025-10-31
+            file_handler.setFormatter(formatter)
+            _logger.addHandler(file_handler)
+        except (OSError, PermissionError) as e:
+            # If we can't create logs directory, log to console only
+            print(f"Warning: Could not create log directory {LOG_DIR}: {e}")
+            print(f"Logger '{name}' will log to console only")
 
     # Parent loggerga propagate qilmaslik (duplicate loglarni oldini olish)
     _logger.propagate = False

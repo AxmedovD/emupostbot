@@ -24,6 +24,9 @@ COPY run.py .
 # Make sure we have the .env file for configuration
 COPY .env .
 
+# Create logs directory with proper permissions before switching user
+RUN mkdir -p /app/app/logs && chmod 755 /app/app/logs
+
 # Expose port
 EXPOSE 2000
 
