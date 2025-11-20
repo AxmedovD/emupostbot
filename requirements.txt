@@ -7,7 +7,7 @@ aiofiles
 aiodns
 
 # Telegram Bot - Pin to stable aiogram 3.x
-aiogram[i18n]==3.8.0
+aiogram[i18n]
 aiohttp[speedups]
 
 # Database

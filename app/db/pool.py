@@ -1061,12 +1061,7 @@ class Database:
     #@formatter:off
     async def create_tables(self) -> None:
         """Jadvallarni yaratish"""
-        tables_sql = {
-            "alter": """
-                ALTER TABLE users ADD COLUMN IF NOT EXISTS telegram_id BIGINT UNIQUE DEFAULT NULL;
-                ALTER TABLE users ADD COLUMN IF NOT EXISTS lang CHAR(2) DEFAULT 'uz';
-            """
-        }
+        tables_sql: dict = dict()
 
         try:
             async with self.transaction() as conn:
@@ -1081,7 +1076,7 @@ class Database:
             raise
 
     async def create_indexes(self) -> None:
-        indexes: list = []
+        indexes: list = list()
         for query in indexes:
             await self.pool.execute(query)
         return

@@ -73,7 +73,7 @@ async def get_or_create_user(
                 "username": str(telegram_id),
                 "password": str(telegram_id),
                 "lang": "uz",
-                "role_code": 3,
+                "role_code": "tg_user",
             }
         )
 
@@ -222,7 +222,7 @@ async def get_phone(message: Message, db: Database, state: FSMContext):
                 data={
                     "name": name,
                     "phone": phone,
-                    "role_code": 2
+                    "role_code": "user"
                 },
                 conditions={"id": new_user_id}
             )
