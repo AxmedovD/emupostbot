@@ -1,9 +1,9 @@
 from aiogram import Bot, Dispatcher
 from aiogram.client.bot import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.fsm.storage.base import DefaultKeyBuilder
-# from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.fsm.storage.redis import RedisStorage
+# from aiogram.fsm.storage.base import DefaultKeyBuilder
+from aiogram.fsm.storage.memory import MemoryStorage
+# from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.utils.i18n import I18n
 
 from app.core.config import settings
@@ -17,11 +17,11 @@ bot = Bot(
     )
 )
 
-# storage = MemoryStorage()
-storage = RedisStorage.from_url(
-    url=settings.REDIS_URL,
-    key_builder=DefaultKeyBuilder(prefix="emupostbot")
-)
+storage = MemoryStorage()
+# storage = RedisStorage.from_url(
+#     url=settings.REDIS_URL,
+#     key_builder=DefaultKeyBuilder(prefix="emupostbot")
+# )
 dp = Dispatcher(storage=storage)
 
 # I18n sozlash
