@@ -71,8 +71,10 @@ app = FastAPI(
     description="Telegram Bot API with FastAPI",
     version="1.0.0",
     lifespan=lifespan,
-    docs_url="/docs",
-    redoc_url="/redoc"
+#    docs_url="/docs",
+#    redoc_url="/redoc"
+    docs_url=None,
+    redoc_url=None
 )
 
 # CORS middleware for Mini App
@@ -112,7 +114,7 @@ async def get_status():
     """Get application status"""
     try:
         # Check database connection
-        db_status = "connected" if db._pool else "disconnected"
+        db_status = "connected" if hasattr(db, '_pool') and db._pool else "disconnected"
 
         # Check webhook info
         webhook_info = await bot.get_webhook_info()
