@@ -55,9 +55,9 @@ htmlcov/
 .dmypy.json
 dmypy.json
 
-# Docker
-.dockerignore
-docker-compose.override.yml
+# Docker files
+docker-compose.yml
+docker-compose.prod.yml
 
 # Local files
 *.local

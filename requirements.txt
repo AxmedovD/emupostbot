@@ -6,8 +6,8 @@ pydantic-settings
 aiofiles
 aiodns
 
-# Telegram Bot
-aiogram[i18n]
+# Telegram Bot - Pin to stable aiogram 3.x
+aiogram[i18n]==3.8.0
 aiohttp[speedups]
 
 # Database
