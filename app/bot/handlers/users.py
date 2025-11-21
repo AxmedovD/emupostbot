@@ -4,11 +4,11 @@ from aiogram import Router, F
 from aiogram.filters import CommandStart
 from aiogram.enums import ChatType
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, ReplyKeyboardRemove
+from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.utils.i18n import gettext as _, lazy_gettext as __
 from aiogram.utils.markdown import hbold
 
-from app.bot.keyboards.reply import (
+from app.bot.keyboards import (
     get_language_keyboard,
     share_phone_keyboard,
     get_main_keyboard,
@@ -52,19 +52,22 @@ async def get_or_create_user(
     telegram_id = message.from_user.id
 
     # Foydalanuvchini topish
-    user = await db.read(
+    user: dict = await db.read(
         table="users",
         conditions={"telegram_id": telegram_id},
         limit=1,
         result_type="row"
     )
 
-    if user is not None:
+    if user is not None and user.get('role_code') == "user":
         return user, False
 
     # Yangi foydalanuvchi qo'shish
     try:
-        user_id = await db.create(
+        if user is not None:
+            user_id = user.get('id')
+        else:
+            user_id = await db.create(
             table="users",
             data={
                 "name": message.from_user.full_name or str(telegram_id),
@@ -265,6 +268,12 @@ async def get_phone(message: Message, db: Database, state: FSMContext):
             #     },
             #     data={"user_id": new_user_id}
             # )
+        
+        try:
+            m = await message.answer(text=".", reply_markup=ReplyKeyboardRemove())
+            await m.delete()
+        except:
+            pass
 
         return await message.answer(
             text=hbold(_("Ro'yxatdan muvaffaqiyatli o'tdingiz!")),
@@ -287,10 +296,14 @@ async def invalid_phone_format(message: Message):
     )
 
 
-@router.message(F.text == __("📄 Shartnoma"))
-async def _contract(message: Message, state: FSMContext):
+@router.callback_query(F.data == 'contract')
+async def _contract(call: CallbackQuery, state: FSMContext):
+    try:
+        await call.message.delete()
+    except:
+        pass
     await state.set_state(RegistrationStates.login)
-    return await message.answer(
+    return await call.message.answer(
         text=hbold(_("Iltimos, kirish uchun loginni yuboring!")),
         reply_markup=stop_keyboard()
     )
@@ -298,6 +311,11 @@ async def _contract(message: Message, state: FSMContext):
 
 @router.message(F.text == __("❎ Bekor qilish"))
 async def _stop(message: Message, state: FSMContext):
+    try:
+        m = await message.answer(text=".", reply_markup=ReplyKeyboardRemove())
+        await m.delete()
+    except:
+        pass
     await state.clear()
     return await message.answer(
         text=hbold(_("Xush kelibsiz!")),

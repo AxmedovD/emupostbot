@@ -1,28 +1,28 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+from aiogram.utils.i18n import gettext as _
 
 from app.core.config import settings
 
 
-def get_main_keyboard() -> InlineKeyboardMarkup:
-    """Get main menu keyboard with Mini App button"""
-
-    buttons = [
+def get_main_keyboard(is_contract: bool = False) -> InlineKeyboardMarkup:
+    """Asosiy klaviatura"""
+    keyboard = []
+    
+    if not is_contract:
+        keyboard.append([InlineKeyboardButton(text=_("📄 Shartnoma"), callback_data="contract")])
+    
+    keyboard.extend([
+        [InlineKeyboardButton(
+            text="🚀 Mini App ochish",
+            web_app=WebAppInfo(url=settings.WEBAPP_URL)
+        )],
         [
-            InlineKeyboardButton(
-                text="📱 Mini App",
-                web_app=WebAppInfo(url=settings.WEBAPP_URL)
-            )
-        ] if settings.WEBAPP_URL else [],
-        [
-            InlineKeyboardButton(text="ℹ️ Yordam", callback_data="help"),
-            InlineKeyboardButton(text="⚙️ Sozlamalar", callback_data="settings")
+            InlineKeyboardButton(text=_("⚙️ Sozlamalar"), callback_data="settings"),
+            InlineKeyboardButton(text=_("ℹ️ Ma'lumot"), callback_data="info")
         ]
-    ]
-
-    # Filter out empty lists
-    buttons = [row for row in buttons if row]
-
-    return InlineKeyboardMarkup(inline_keyboard=buttons)
+    ])
+    
+    return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 
 def get_notification_keyboard() -> InlineKeyboardMarkup:
